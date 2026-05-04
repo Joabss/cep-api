@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Adapter de saída — implementa CepLogPort usando Spring Data JPA.
+ */
+
 @Component
 public class CepLogPersistenceAdapter implements CepLogPort {
 

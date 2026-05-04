@@ -2,6 +2,10 @@ package br.com.joabe.cepapi.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO para resposta de erros.
+ * Contém informações como status HTTP, mensagem de erro e timestamp.
+ */
 public record ErrorResponse(
         int status,
         String error,

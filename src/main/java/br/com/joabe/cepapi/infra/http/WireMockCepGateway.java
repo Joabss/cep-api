@@ -14,6 +14,9 @@ import org.springframework.web.client.RestClient;
 
 import java.util.Optional;
 
+/**
+ * Adapter de saída — implementa CepGateway usando RestClient para chamar API mock (WireMock).
+ */
 @Component
 public class WireMockCepGateway implements CepGateway {
 

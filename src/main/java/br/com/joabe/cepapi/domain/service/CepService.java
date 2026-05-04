@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Caso de uso: consultar CEP e registrar log.
+ * <p>
+ * SRP: responsabilidade única de orquestrar a consulta de CEP e registro de log.
+ * DIP: depende de CepGateway e CepLogPort, nunca de implementações concretas.
+ */
 @Service
 public class CepService {
 
@@ -24,6 +30,12 @@ public class CepService {
         this.cepLogPort = cepLogPort;
     }
 
+    /**
+     * Consulta CEP e registra log de acordo com o resultado.
+     * - Se encontrado: log de SUCESSO com dados.
+     * - Se não encontrado: log de NÃO_ENCONTRADO e lança CepNotFoundException.
+     * - Se erro na consulta: log de ERRO com mensagem e relança exceção.
+     */
     public CepData consultar(String cep) {
         String cleanCep = cep.replaceAll("[^0-9]", "");
 

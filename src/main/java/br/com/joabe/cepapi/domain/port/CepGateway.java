@@ -7,9 +7,9 @@ import java.util.Optional;
 /**
  * Interface do cliente HTTP de CEP.
  * <p>
- * SOLID - DIP: o Service depende desta abstração, não de implementação concreta.
- * SOLID - ISP: interface enxuta com apenas o método necessário.
- * SOLID - OCP: basta criar outra implementação (ex: ViaCepClient) sem alterar o Service.
+ * DIP: o Service depende desta abstração, não de implementação concreta.
+ * ISP: interface enxuta com apenas o método necessário.
+ * OCP: basta criar outra implementação (ex: ViaCepClient) sem alterar o Service.
  */
 public interface CepGateway {
 

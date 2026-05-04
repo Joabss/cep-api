@@ -12,6 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Handler global de exceções para a API de CEP.
+ * <p>
+ * Captura exceções específicas como CepNotFoundException e ConstraintViolationException,
+ * além de uma captura genérica para outras exceções não tratadas.
+ * Retorna respostas JSON padronizadas com status HTTP apropriados.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
