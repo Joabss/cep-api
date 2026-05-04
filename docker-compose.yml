@@ -54,6 +54,7 @@ services:
       DB_USER: cepuser
       DB_PASSWORD: ceppassword
       CEP_API_URL: http://wiremock:8089
+      AWS_SECRETS_ENABLED: "false"
     depends_on:
       postgres:
         condition: service_healthy
