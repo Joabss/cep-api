@@ -40,14 +40,16 @@ Os logs das consultas precisam ser gravados em base de dados, com o horário da
 ┌─────────────────────────────────────────────────────────────┐
 │                    Entrada                                  │
 │   controller/CepController                                  │
+│   controller/LogHistoricoController                         │
 └──────────────────────┬──────────────────────────────────────┘
-                       │ usa
+                       │
 ┌──────────────────────▼──────────────────────────────────────┐
 │                     Domínio                                 │
 │                                                             │
 │   domain/port/                                              │
 │     CepGateway        (port de saída — buscar CEP)          │
 │     CepLogPort        (port de saída — salvar log)          │
+│     LogHistoricoPort  (port de saída — consultar histórico) │
 │                                                             │
 │   domain/service/                                           │
 │     CepService          (caso de uso: consultar CEP)        │
@@ -61,8 +63,9 @@ Os logs das consultas precisam ser gravados em base de dados, com o horário da
 │   infra/http/         │  │   infra/persistence/              │
 │   WireMockCepGateway  │  │   CepLogPersistenceAdapter        │
 │                       │  │   CepLogEntity (@Entity)          │
-│     WireMock :8089    │  │                                   │
-└───────────────────────┘  │     PostgreSQL :5432              │
+│     WireMock :8089    │  │   LogHistoricoPersistenceAdapter  │
+└───────────────────────┘  │                                   │
+                           │     PostgreSQL :5432              │
                            └───────────────────────────────────┘
 ```
 
@@ -186,7 +189,57 @@ GET /api/v1/health
 curl http://localhost:8080/api/v1/health
 # Retorna: OK
 ```
+---
 
+### Consultar Histórico de Logs
+
+```
+GET /api/v1/logs
+```
+
+
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| `cep` | query | Filtra por CEP exato |
+| `status` | query | `SUCCESS`, `NOT_FOUND` ou `ERROR` |
+| `de` | query | Data inicial no formato `YYYY-MM-DD` |
+| `ate` | query | Data final no formato `YYYY-MM-DD` |
+
+**Exemplos:**
+```
+# Todos os logs
+curl http://localhost:8080/api/v1/logs
+
+# Por CEP
+curl "http://localhost:8080/api/v1/logs?cep=01310100"
+
+# Por status
+curl "http://localhost:8080/api/v1/logs?status=NOT_FOUND"
+
+# Por período
+curl "http://localhost:8080/api/v1/logs?de=2024-06-01&ate=2024-06-30"
+
+# Combinando filtros
+curl "http://localhost:8080/api/v1/logs?cep=01310100&status=SUCCESS&de=2024-01-01&ate=2024-12-31"
+```
+
+**Resposta 200:**
+```json
+[
+  {
+    "id": 3,
+    "cep": "01310100",
+    "status": "SUCCESS",
+    "consultedAt": "2024-06-15T14:32:01"
+  },
+  {
+    "id": 2,
+    "cep": "99999999",
+    "status": "NOT_FOUND",
+    "consultedAt": "2024-06-15T14:30:45"
+  }
+]
+```
 ---
 
 ##   CEPs Disponíveis no Mock
