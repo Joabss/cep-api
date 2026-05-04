@@ -36,7 +36,7 @@ aws:
   secrets:
     enabled: ${AWS_SECRETS_ENABLED:true}
     secret-name: ${AWS_SECRET_NAME:cep-api/db-credentials}
-    region: ${AWS_REGION:us-east-1}
+    region: ${AWS_REGION:sa-east-1}
 
 logging:
   level:
