@@ -45,6 +45,27 @@
     {
       "request": {
         "method": "GET",
+        "urlPattern": "/ws/05530030/json"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "cep": "05530-030",
+          "logradouro": "Rua Luis Alberto Martins",
+          "complemento": "",
+          "bairro": "Vila Butantã",
+          "localidade": "São Paulo",
+          "uf": "SP",
+          "ibge": "9999999"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
         "urlPattern": "/ws/30130110/json"
       },
       "response": {
