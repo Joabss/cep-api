@@ -1,0 +1,94 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/ws/01310100/json"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "cep": "01310-100",
+          "logradouro": "Avenida Paulista",
+          "complemento": "160",
+          "bairro": "Bela Vista",
+          "localidade": "São Paulo",
+          "uf": "SP",
+          "ibge": "3550308"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/ws/20040020/json"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "cep": "20040-020",
+          "logradouro": "Avenida Rio Branco",
+          "complemento": "",
+          "bairro": "Centro",
+          "localidade": "Rio de Janeiro",
+          "uf": "RJ",
+          "ibge": "3304557"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/ws/30130110/json"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "cep": "30130-110",
+          "logradouro": "Avenida Afonso Pena",
+          "complemento": "",
+          "bairro": "Centro",
+          "localidade": "Belo Horizonte",
+          "uf": "MG",
+          "ibge": "3106200"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/ws/99999999/json"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {"erro":"true"}
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/ws/[0-9]{8}/json"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {"erro":"true"}
+      },
+      "priority": 10
+    }
+  ]
+}

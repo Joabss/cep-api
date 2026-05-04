@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+
+  # ─── PostgreSQL ────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: cep-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cepdb
+      POSTGRES_USER: cepuser
+      POSTGRES_PASSWORD: ceppassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cepuser -d cepdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── WireMock (Mock da API de CEP) ─────────────────────────────────────────
+  wiremock:
+    image: wiremock/wiremock:3.6.0
+    container_name: cep-wiremock
+    restart: unless-stopped
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./wiremock:/home/wiremock
+    command: >
+      --port 8089
+      --root-dir /home/wiremock
+      --verbose
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8089/__admin/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Spring Boot App ────────────────────────────────────────────────────────
+  cep-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cep-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/cepdb
+      DB_USER: cepuser
+      DB_PASSWORD: ceppassword
+      CEP_API_URL: http://wiremock:8089
+    depends_on:
+      postgres:
+        condition: service_healthy
+      wiremock:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
